@@ -1,0 +1,45 @@
+{
+  "name": "@dsh-external/viewboost",
+  "version": "1.0.0",
+  "description": "viewboost: 右侧预览工具栏增强 (Finder/全屏/复制/复制文件) + Token 用量卡 + 文件预览",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/viewboost.git"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/viewboost",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "plugin",
+    "viewboost",
+    "finder",
+    "preview"
+  ],
+  "license": "MIT"
+}

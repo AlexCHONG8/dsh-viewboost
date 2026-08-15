@@ -1,0 +1,5 @@
+# viewboost bundle patch: dsh plugin --profile web add @dsh-external/viewboost 时
+# CLI 的 bundle 协调会把这个 insert 加进 profile 的 dsh.profile.bundles。
+- insert:
+    - id: viewboost
+      name: '@dsh-external/viewboost'
