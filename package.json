@@ -1,6 +1,6 @@
 {
   "name": "@dsh-external/viewboost",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "viewboost: 右侧预览工具栏增强 (Finder/全屏/复制/复制文件) + Token 用量卡 + 文件预览",
   "type": "module",
   "main": "lib/index.js",

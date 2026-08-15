@@ -1,4 +1,4 @@
-# viewboost 迭代复盘：给 DeepSeek Harness 改 UI 踩过的 20 个坑
+# viewboost 迭代复盘：给 DeepSeek Harness 改 UI 踩过的 22 个坑
 
 > 本文记录 viewboost 从「半天交付的玩具」到「正式 DSH 插件」过程中遇到的全部问题——
 > 从沙箱限制、槽位系统，到一行 CSS、一个按钮图标的细枝末节。
@@ -123,7 +123,19 @@ dsh-client-modules 按包名缓存插件名单——**新增/移除插件必须�
 
 ---
 
-## 7. 经验教训总结
+## 7. 路径解析的坑（v1.0.1）
+
+### 坑 21：全文档查 hashed class，抓到了别人的 tab
+`document.querySelector('[class*="tabActive"]')` 想拿「当前预览的文件名」，结果页面上有两个 `tabActive`——DSH 会话标签「对话」排在 DOM 前面。于是「复制路径」复制出 `<工作区>/对话`，一个磁盘上根本不存在的路径。
+**解法**：hashed CSS class 选择器必须限定容器范围（`.aionui-preview-col` 内查）；tab 的 `title` 属性比 textContent 干净（子目录文件的标题就是工作区相对路径，直接拼 root 就是答案）。
+
+### 坑 22：猜出来的路径不验证，Finder 直接 ENOENT
+tab 恢复竞速（页面加载时 read 在 fetch 包装安装前发出）+ 文件在子目录 → 候选 `root+文件名` 打不中 → 旧逻辑裸返第一个候选 → host 端 `fs.stat` 返回 ENOENT，「在访达显示」报错。
+**解法**：三层防御——① 相对路径标题拼 root；② 候选逐个过 host `vb.stat`，只认「存在且 isDirectory === false」；③ 全败时用 `vb.list` 从 root BFS 按文件名定位。找不到就诚实报错，绝不把虚构路径交给按钮；优先级以用户正指着的激活 tab 为锚，「最近 read 的文件」只能垫底（否则切 tab 会复制错文件）。
+
+---
+
+## 8. 经验教训总结
 
 1. **先验证用户实际路径，再动手**——坑 12 浪费了最多版本。
 2. **DSH 是 oklch 色系**，别拿 #fff 硬上；字体显式指定。
@@ -133,7 +145,8 @@ dsh-client-modules 按包名缓存插件名单——**新增/移除插件必须�
 6. **固定宽度控件要先量宿主最小宽度**（layout 契约），再谈好看。
 7. **假阳性**：HTTP 200 不代表插件活着，看 `__DSH_BOOT__`。
 8. **改 UI 的验证闭环**：改 bundle → 看 boot rev 变了 → Cmd+R → 点进会话 → 真点击验证。
+9. **容器内查选择器 + 路径必须验证**：全文档 selector 会撞宿主同名 class（坑 21）；「猜的路径」要有 stat 校验 + 按名定位两道兜底，找不到要诚实报错——静默假路径是最恶劣的失败模式（坑 22）。
 
 ---
 
-*以上内容来自 viewboost 实际迭代（v1 → v27 → 正式版 1.0.0），对应版本细节见 [CHANGELOG.md](../CHANGELOG.md)。*
+*以上内容来自 viewboost 实际迭代（v1 → v27 → 正式版 1.0.1），对应版本细节见 [CHANGELOG.md](../CHANGELOG.md)。*
