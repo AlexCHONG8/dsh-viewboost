@@ -2,7 +2,7 @@
 
 # viewboost
 
-**Preview-toolbar boost for DeepSeek Harness** — Finder reveal, fullscreen, copy path/file for the right-hand preview panel, plus a Token usage card.
+DeepSeek Harness 右侧预览面板的工具栏增强：在访达显示、全屏、复制路径、复制文件，外加一个 Token 用量卡。
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
@@ -11,94 +11,95 @@
 
 </div>
 
-**viewboost** is a [DeepSeek Harness](https://github.com/deepseek-ai) plugin that adds practical file-operations buttons to the toolbar of the right-hand **aionui preview panel**, plus a lightweight **Token usage card** in the bottom-left corner.
+给 DSH 右侧的 aionui 预览面板工具栏加几个按钮，顺手在左下角放一个 Token 用量卡。不碰任何第三方插件源码。
 
-![Preview toolbar with viewboost buttons](docs/screenshots/preview-toolbar.png)
+![预览工具栏](docs/screenshots/preview-toolbar.png)
 
-## ✨ Features
+## 功能
 
-| Button | Icon | What it does |
-|---|---|---|
-| 📁 Reveal in Finder | folder | Selects the currently previewed file in macOS Finder (`open -R`) |
-| ⤢ Fullscreen | maximize | Expands the preview panel to fullscreen; `Esc` to exit |
-| 📋 Copy path | clip | Copies the file's absolute path to the clipboard |
-| ⧉ Copy file | copy | Puts a **file reference** on the macOS clipboard — paste with `Cmd+V` in Finder to copy the file |
-| 📊 Token usage | — | Bottom-left card: token usage for the last 5h / today / this week, with optional MiniMax quota status line |
+| 按钮 | 干什么 |
+|---|---|
+| 📁 在访达显示 | 在 macOS Finder 里选中当前预览的文件（`open -R`） |
+| ⤢ 全屏 | 预览面板全屏，按 `Esc` 退出 |
+| 📋 复制路径 | 复制文件绝对路径 |
+| ⧉ 复制文件 | 把文件引用放进剪贴板，Finder 里 `Cmd+V` 就能粘贴复制 |
+| 📊 Token 用量 | 左下角卡片：近 5h / 今日 / 本周用量，可选 MiniMax 配额状态 |
 
-Toolbar icons are the feather SVG set, same style as [FanBox](https://github.com/alchaincyf/fanbox).
+工具栏图标用的是 feather SVG，和 [FanBox](https://github.com/alchaincyf/fanbox) 同一套。
 
-![Token usage card](docs/screenshots/usage-card.png)
+![Token 用量卡](docs/screenshots/usage-card.png)
 
-## 📦 Installation
+## 安装
 
-> Prerequisites: a running [DeepSeek Harness](https://github.com/deepseek-ai) `web` profile.
+前提：已经跑着一个 [DeepSeek Harness](https://github.com/deepseek-ai) 的 `web` profile。
 
-### Option 1 — from GitHub (recommended)
+直接装（推荐）：
 
 ```sh
 dsh plugin --profile web add github:AlexCHONG8/dsh-viewboost
 ```
 
-### Option 2 — from a local clone
+或者本地 clone 后装：
 
 ```sh
 git clone https://github.com/AlexCHONG8/dsh-viewboost.git
 dsh plugin --profile web add link:/path/to/dsh-viewboost
 ```
 
-After installing, **restart DSH** (`dsh web`). The plugin mounts automatically with the profile — no need to press "Run" in the Cordis panel like session-level dynamic plugins.
+装完重启 DSH（`dsh web`）就生效。插件随 profile 自动挂载，不用像动态插件那样每次去 Cordis 面板点「运行」。
 
-## 🎯 Usage
+## 用法
 
-1. Open any file from the right-hand file tree → 4 icon buttons appear in the preview toolbar.
-2. **📁** → Finder opens with the file selected.
-3. **📋** → absolute path copied to clipboard.
-4. **⧉** → file goes to the clipboard; in Finder press `Cmd+V` to paste/copy the file.
-5. **⤢** → preview fullscreen; `Esc` to exit.
-6. **📊** (bottom-left) → Token usage card.
+1. 右侧文件树点开任意文件，预览工具栏会出现 4 个图标按钮
+2. 📁 Finder 弹出并选中该文件
+3. 📋 复制完整路径
+4. ⧉ 文件进剪贴板，切到 Finder 按 `Cmd+V` 粘贴（相当于复制文件）
+5. ⤢ 全屏预览，`Esc` 退出
+6. 📊 左下角 Token 用量卡
 
-### MiniMax quota (optional)
+### MiniMax 配额（可选）
 
-Write to `~/.dsh/viewboost.env` (permissions `0600`):
+往 `~/.dsh/viewboost.env`（权限 0600）写：
 
 ```env
-MINIMAX_CN_API_KEY=sk-cp-...    # China endpoint api.minimaxi.com
-# or
-MINIMAX_API_KEY=sk-...          # International endpoint api.minimax.io
+MINIMAX_CN_API_KEY=sk-cp-...    # 国内版 api.minimaxi.com
+# 或
+MINIMAX_API_KEY=sk-...          # 国际版 api.minimax.io
 ```
 
-The card then shows the real Token Plan status (5h rolling window / weekly remaining, with countdown).
+卡片底部会显示真实的 Token Plan 状态（5h 滚动窗口 / 周配额剩余、倒计时）。
 
-## 🔧 Requirements
+## 环境要求
 
-- **DSH web profile** — plugin targets the aionui right-panel layout
-- **macOS** for full feature set (Finder reveal, file-reference clipboard)
-- Linux/Windows: copy-path, fullscreen and token card still work; Finder buttons degrade gracefully
+- 需要 DSH 的 `web` profile，目标是 aionui 右侧面板布局
+- macOS 功能最全（Finder 显示、文件引用剪贴板）
+- Linux / Windows：复制路径、全屏、用量卡能用，Finder 相关按钮自动降级
 
-## 🗂 Project structure
+## 项目结构
 
 ```
 viewboost/
-├── dsh.plugin.json      # DSH plugin manifest (client.main)
-├── cordis.patch.yml     # bundle patch (applied on dsh plugin add)
-├── package.json         # npm package + dsh.bundle/client declarations
+├── dsh.plugin.json      # DSH 插件清单 (client.main)
+├── cordis.patch.yml     # bundle patch（dsh plugin add 时自动挂载）
+├── package.json         # npm 包 + dsh.bundle/client 声明
 └── lib/
-    ├── index.js         # Host: /viewboost/* HTTP routes (fs / subprocess / curl)
-    └── client.js        # Client: toolbar injection + Token card (module-loader wrapper)
+    ├── index.js         # Host: /viewboost/* HTTP 路由 (fs/subprocess/curl)
+    └── client.js        # Client: 工具栏注入 + Token 卡 (module-loader 包装)
 ```
 
-## 🔌 How it works
+## 实现原理
 
-- **Host**: `inject: ['fs', 'webServer']`; registers `/viewboost/{list,read,fileUrl,stat,thumb,binary,finder,copyfile,usage,minimax}` routes.
-- **Client**: `window.__ModuleLoader__.load()` wrapper, calls the host via `fetch('/viewboost/...')`.
-- **aionui integration**: a `MutationObserver` injects the buttons into the `.aionui-preview-col` toolbar; the current file path is tracked by intercepting `/aionui-panel/read|list` fetches.
-- **Clipboard**: synchronous `execCommand('copy')` (offscreen textarea, same approach as the official `writeClipboard`) with a Clipboard API fallback.
-- Never modifies third-party plugin source code.
+- Host 声明 `inject: ['fs', 'webServer']`，注册 `/viewboost/{list,read,fileUrl,stat,thumb,binary,finder,copyfile,usage,minimax}` 路由
+- Client 用 `window.__ModuleLoader__.load()` 包装，通过 `fetch('/viewboost/...')` 调 host
+- aionui 集成：MutationObserver 把按钮插进 `.aionui-preview-col` 工具栏（刷新按钮旁边），当前文件路径靠拦截 `/aionui-panel/read|list` 的 fetch 拿到
+- 复制：同步 `execCommand('copy')`（离屏 textarea，和官方 writeClipboard 一个思路）+ Clipboard API 双保险
 
-## 🙏 特别致谢
+迭代过程踩的坑都记在 [docs/ITERATION-NOTES.md](docs/ITERATION-NOTES.md)，想给 DSH 写插件的人可以看看。
 
-灵感来自**花叔（Huashu）**的 [FanBox](https://github.com/alchaincyf/fanbox) 技能 —— 给 Agent 界面配上「可视化浏览 + 文件预览」这个设计思路，以及工具栏的 feather SVG 图标集，都源自他的作品。这个插件是我对那份灵感的手搓致敬。**感谢花叔的 FanBox，才有这份灵感。🙏**
+## 特别致谢
 
-## 📄 License
+灵感来自**花叔（Huashu）**的 [FanBox](https://github.com/alchaincyf/fanbox)：给 Agent 界面配「可视化浏览 + 文件预览」这个想法，还有工具栏那套 feather SVG 图标，都是从他那儿来的。这个插件算是我照着那份灵感手搓出来的。感谢花叔，没有 FanBox 就没有它。🙏
 
-MIT — see [LICENSE](LICENSE).
+## License
+
+MIT，见 [LICENSE](LICENSE)。
