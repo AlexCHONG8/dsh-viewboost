@@ -1,78 +1,100 @@
-# viewboost — DSH 右侧预览工具栏增强
+<div align="center">
 
-一个 [DeepSeek Harness](https://github.com/deepseek-ai) 插件：给右侧 **aionui 预览面板**的工具栏加上实用的文件操作按钮，并提供 Token 用量卡片。
+# viewboost
 
-## ✨ 功能
+**Preview-toolbar boost for DeepSeek Harness** — Finder reveal, fullscreen, copy path/file for the right-hand preview panel, plus a Token usage card.
 
-| 按钮 | 图标 | 功能 |
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg)](#requirements)
+[![DSH](https://img.shields.io/badge/DSH-plugin-4B32C3.svg)](https://github.com/deepseek-ai)
+
+</div>
+
+**viewboost** is a [DeepSeek Harness](https://github.com/deepseek-ai) plugin that adds practical file-operations buttons to the toolbar of the right-hand **aionui preview panel**, plus a lightweight **Token usage card** in the bottom-left corner.
+
+![Preview toolbar with viewboost buttons](docs/screenshots/preview-toolbar.png)
+
+## ✨ Features
+
+| Button | Icon | What it does |
 |---|---|---|
-| 📁 在访达显示 | folder | macOS Finder 中选中当前预览文件（`open -R`） |
-| ⤢ 全屏放大 | maximize | 预览面板全屏，Esc 退出 |
-| 📋 复制路径 | clip | 复制当前文件完整绝对路径 |
-| ⧉ 复制文件 | copy | 把文件放进 macOS 剪贴板（文件引用），Finder 里 Cmd+V 可粘贴/复制该文件 |
-| 📊 Token 用量 | — | 左下角浮卡：近5h / 今日 / 本周 token 用量（FanBox trio 风格），可选 MiniMax 真实配额状态行 |
+| 📁 Reveal in Finder | folder | Selects the currently previewed file in macOS Finder (`open -R`) |
+| ⤢ Fullscreen | maximize | Expands the preview panel to fullscreen; `Esc` to exit |
+| 📋 Copy path | clip | Copies the file's absolute path to the clipboard |
+| ⧉ Copy file | copy | Puts a **file reference** on the macOS clipboard — paste with `Cmd+V` in Finder to copy the file |
+| 📊 Token usage | — | Bottom-left card: token usage for the last 5h / today / this week, with optional MiniMax quota status line |
 
-图标全部取自 [FanBox](https://github.com/alchaincyf/fanbox) 的同款 feather SVG 集。
+Toolbar icons are the feather SVG set, same style as [FanBox](https://github.com/alchaincyf/fanbox).
 
-## 🚀 安装
+![Token usage card](docs/screenshots/usage-card.png)
 
-### 方式一：直接安装（推荐）
+## 📦 Installation
 
-```sh
-# 把仓库 clone 到本地后
-dsh plugin --profile web add link:/path/to/viewboost
-# 重启 dsh web 即生效
-```
+> Prerequisites: a running [DeepSeek Harness](https://github.com/deepseek-ai) `web` profile.
 
-### 方式二：从 GitHub 安装
+### Option 1 — from GitHub (recommended)
 
 ```sh
 dsh plugin --profile web add github:AlexCHONG8/dsh-viewboost
 ```
 
-安装后 **重启 DSH**（`dsh web`），插件随 profile 启动自动挂载——不需要像动态插件那样每次点「运行」。
+### Option 2 — from a local clone
 
-## 🎯 使用
-
-1. 右侧文件树点开任意文件 → 预览面板工具栏出现 4 个图标按钮
-2. 点 **📁** → Finder 弹出并选中该文件
-3. 点 **📋** → 复制完整路径到剪贴板
-4. 点 **⧉** → 文件进剪贴板，切到 Finder 按 Cmd+V 粘贴（相当于复制文件）
-5. 点 **⤢** → 预览全屏，Esc 退出
-6. 左下角 **📊** → Token 用量卡
-
-### MiniMax 配额（可选）
-
-在 `~/.dsh/viewboost.env`（权限 0600）写入：
-
-```env
-MINIMAX_CN_API_KEY=sk-cp-...    # 国内版 api.minimaxi.com
-# 或
-MINIMAX_API_KEY=sk-...          # 国际版 api.minimax.io
+```sh
+git clone https://github.com/AlexCHONG8/dsh-viewboost.git
+dsh plugin --profile web add link:/path/to/dsh-viewboost
 ```
 
-卡片底部会显示真实 Token Plan 状态（5h 滚动窗口 / 周配额剩余、倒计时）。
+After installing, **restart DSH** (`dsh web`). The plugin mounts automatically with the profile — no need to press "Run" in the Cordis panel like session-level dynamic plugins.
 
-## 🗂 项目结构
+## 🎯 Usage
+
+1. Open any file from the right-hand file tree → 4 icon buttons appear in the preview toolbar.
+2. **📁** → Finder opens with the file selected.
+3. **📋** → absolute path copied to clipboard.
+4. **⧉** → file goes to the clipboard; in Finder press `Cmd+V` to paste/copy the file.
+5. **⤢** → preview fullscreen; `Esc` to exit.
+6. **📊** (bottom-left) → Token usage card.
+
+### MiniMax quota (optional)
+
+Write to `~/.dsh/viewboost.env` (permissions `0600`):
+
+```env
+MINIMAX_CN_API_KEY=sk-cp-...    # China endpoint api.minimaxi.com
+# or
+MINIMAX_API_KEY=sk-...          # International endpoint api.minimax.io
+```
+
+The card then shows the real Token Plan status (5h rolling window / weekly remaining, with countdown).
+
+## 🔧 Requirements
+
+- **DSH web profile** — plugin targets the aionui right-panel layout
+- **macOS** for full feature set (Finder reveal, file-reference clipboard)
+- Linux/Windows: copy-path, fullscreen and token card still work; Finder buttons degrade gracefully
+
+## 🗂 Project structure
 
 ```
 viewboost/
-├── dsh.plugin.json      # DSH 插件清单 (client.main)
-├── cordis.patch.yml     # bundle patch (dsh plugin add 时自动挂载)
-├── package.json         # npm 包 + dsh.bundle/client 声明
+├── dsh.plugin.json      # DSH plugin manifest (client.main)
+├── cordis.patch.yml     # bundle patch (applied on dsh plugin add)
+├── package.json         # npm package + dsh.bundle/client declarations
 └── lib/
-    ├── index.js         # Host: /viewboost/* HTTP 路由 (fs/subprocess/curl)
-    └── client.js        # Client: 工具栏注入 + Token 卡 (module-loader 包装)
+    ├── index.js         # Host: /viewboost/* HTTP routes (fs / subprocess / curl)
+    └── client.js        # Client: toolbar injection + Token card (module-loader wrapper)
 ```
 
-## 🔌 技术要点
+## 🔌 How it works
 
-- **Host**：`inject: ['fs', 'webServer']`，注册 `/viewboost/{list,read,fileUrl,stat,thumb,binary,finder,copyfile,usage,minimax}` 路由
-- **Client**：`window.__ModuleLoader__.load()` 包装，`fetch('/viewboost/...')` 调用 host
-- **aionui 集成**：MutationObserver 把按钮注入 `.aionui-preview-col` 工具栏（刷新按钮旁），路径追踪用 fetch 拦截 `/aionui-panel/read|list`
-- **复制**：同步 `execCommand('copy')`（离屏 textarea，官方 writeClipboard 同款）+ Clipboard API 双保险
-- 不修改任何第三方插件源码
+- **Host**: `inject: ['fs', 'webServer']`; registers `/viewboost/{list,read,fileUrl,stat,thumb,binary,finder,copyfile,usage,minimax}` routes.
+- **Client**: `window.__ModuleLoader__.load()` wrapper, calls the host via `fetch('/viewboost/...')`.
+- **aionui integration**: a `MutationObserver` injects the buttons into the `.aionui-preview-col` toolbar; the current file path is tracked by intercepting `/aionui-panel/read|list` fetches.
+- **Clipboard**: synchronous `execCommand('copy')` (offscreen textarea, same approach as the official `writeClipboard`) with a Clipboard API fallback.
+- Never modifies third-party plugin source code.
 
 ## 📄 License
 
-MIT
+MIT — see [LICENSE](LICENSE).
