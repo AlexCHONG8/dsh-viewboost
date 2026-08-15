@@ -24,10 +24,10 @@ dsh plugin --profile web add link:/path/to/viewboost
 # 重启 dsh web 即生效
 ```
 
-### 方式二：从 GitHub 安装（发布后）
+### 方式二：从 GitHub 安装
 
 ```sh
-dsh plugin --profile web add github:<你的用户名>/viewboost
+dsh plugin --profile web add github:AlexCHONG8/dsh-viewboost
 ```
 
 安装后 **重启 DSH**（`dsh web`），插件随 profile 启动自动挂载——不需要像动态插件那样每次点「运行」。

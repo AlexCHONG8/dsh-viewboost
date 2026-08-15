@@ -30,9 +30,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/viewboost.git"
+    "url": "https://github.com/AlexCHONG8/dsh-viewboost.git"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/viewboost",
+  "homepage": "https://github.com/AlexCHONG8/dsh-viewboost",
   "keywords": [
     "dsh",
     "deepseek-harness",
