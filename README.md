@@ -95,6 +95,10 @@ viewboost/
 - **Clipboard**: synchronous `execCommand('copy')` (offscreen textarea, same approach as the official `writeClipboard`) with a Clipboard API fallback.
 - Never modifies third-party plugin source code.
 
+## 🙏 Special thanks
+
+Inspired by **花叔 (Huashu)**'s [FanBox](https://github.com/alchaincyf/fanbox) skill — the idea of a visual file browser / preview UX for agent UIs, and the feather SVG toolbar icon set, both come from his work. This plugin is my hand-rolled tribute to that inspiration. 感谢花叔的 FanBox，才有这份灵感。🙏
+
 ## 📄 License
 
 MIT — see [LICENSE](LICENSE).
